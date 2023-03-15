@@ -1,0 +1,355 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="kitapModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="admin">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="admin" Type="nvarchar" MaxLength="30" />
+          <Property Name="sifre" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="kayit">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="o_ad" Type="int" />
+          <Property Name="gorevli" Type="int" />
+          <Property Name="kitap" Type="int" />
+          <Property Name="tarih" Type="date" />
+          <Property Name="durum" Type="bit" />
+        </EntityType>
+        <EntityType Name="kitaplar">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="kitap_Adi" Type="nvarchar" MaxLength="50" />
+          <Property Name="kitap_sayisi" Type="nvarchar" MaxLength="50" />
+          <Property Name="yazar" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="kullanici">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="kullanici_adi" Type="nvarchar" MaxLength="30" />
+          <Property Name="sifre" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="ogrenciler">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ogrenci_adi" Type="nvarchar" MaxLength="50" />
+          <Property Name="ogrenci_no" Type="nvarchar" MaxLength="50" />
+          <Property Name="sinifi" Type="int" />
+        </EntityType>
+        <EntityType Name="siniflar">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="sinif_adi" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <Association Name="FK_kayit_kitaplar">
+          <End Role="kitaplar" Type="Self.kitaplar" Multiplicity="0..1" />
+          <End Role="kayit" Type="Self.kayit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="kitaplar">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="kayit">
+              <PropertyRef Name="kitap" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_kayit_kullanici">
+          <End Role="kullanici" Type="Self.kullanici" Multiplicity="0..1" />
+          <End Role="kayit" Type="Self.kayit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="kullanici">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="kayit">
+              <PropertyRef Name="gorevli" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_kayit_ogrenciler">
+          <End Role="ogrenciler" Type="Self.ogrenciler" Multiplicity="0..1" />
+          <End Role="kayit" Type="Self.kayit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ogrenciler">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="kayit">
+              <PropertyRef Name="o_ad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ogrenciler_siniflar">
+          <End Role="siniflar" Type="Self.siniflar" Multiplicity="0..1" />
+          <End Role="ogrenciler" Type="Self.ogrenciler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="siniflar">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ogrenciler">
+              <PropertyRef Name="sinifi" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="kitapModelStoreContainer">
+          <EntitySet Name="admin" EntityType="Self.admin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="kayit" EntityType="Self.kayit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="kitaplar" EntityType="Self.kitaplar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="kullanici" EntityType="Self.kullanici" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ogrenciler" EntityType="Self.ogrenciler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="siniflar" EntityType="Self.siniflar" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_kayit_kitaplar" Association="Self.FK_kayit_kitaplar">
+            <End Role="kitaplar" EntitySet="kitaplar" />
+            <End Role="kayit" EntitySet="kayit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_kayit_kullanici" Association="Self.FK_kayit_kullanici">
+            <End Role="kullanici" EntitySet="kullanici" />
+            <End Role="kayit" EntitySet="kayit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_kayit_ogrenciler" Association="Self.FK_kayit_ogrenciler">
+            <End Role="ogrenciler" EntitySet="ogrenciler" />
+            <End Role="kayit" EntitySet="kayit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ogrenciler_siniflar" Association="Self.FK_ogrenciler_siniflar">
+            <End Role="siniflar" EntitySet="siniflar" />
+            <End Role="ogrenciler" EntitySet="ogrenciler" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="kitapModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="admin">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="admin1" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="sifre" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="kitaplar">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="kitap_Adi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="kitap_sayisi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="yazar" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="kayit" Relationship="kitapModel.FK_kayit_kitaplar" FromRole="kitaplar" ToRole="kayit" />
+        </EntityType>
+        <EntityType Name="kullanici">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="kullanici_adi" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="sifre" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="kayit" Relationship="kitapModel.FK_kayit_kullanici" FromRole="kullanici" ToRole="kayit" />
+        </EntityType>
+        <EntityType Name="ogrenciler">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ogrenci_adi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ogrenci_no" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="sinifi" Type="Int32" />
+          <NavigationProperty Name="siniflar" Relationship="Self.FK_ogrenciler_siniflar" FromRole="ogrenciler" ToRole="siniflar" />
+          <NavigationProperty Name="kayit" Relationship="kitapModel.FK_kayit_ogrenciler" FromRole="ogrenciler" ToRole="kayit" />
+        </EntityType>
+        <EntityType Name="siniflar">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="sinif_adi" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ogrenciler" Relationship="Self.FK_ogrenciler_siniflar" FromRole="siniflar" ToRole="ogrenciler" />
+        </EntityType>
+        <Association Name="FK_ogrenciler_siniflar">
+          <End Role="siniflar" Type="Self.siniflar" Multiplicity="0..1" />
+          <End Role="ogrenciler" Type="Self.ogrenciler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="siniflar">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ogrenciler">
+              <PropertyRef Name="sinifi" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="kitapEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="admin" EntityType="Self.admin" />
+          <EntitySet Name="kitaplar" EntityType="Self.kitaplar" />
+          <EntitySet Name="kullanici" EntityType="Self.kullanici" />
+          <EntitySet Name="ogrenciler" EntityType="Self.ogrenciler" />
+          <EntitySet Name="siniflar" EntityType="Self.siniflar" />
+          <AssociationSet Name="FK_ogrenciler_siniflar" Association="Self.FK_ogrenciler_siniflar">
+            <End Role="siniflar" EntitySet="siniflar" />
+            <End Role="ogrenciler" EntitySet="ogrenciler" />
+          </AssociationSet>
+          <EntitySet Name="kayit" EntityType="kitapModel.kayit" />
+          <AssociationSet Name="FK_kayit_kitaplar" Association="kitapModel.FK_kayit_kitaplar">
+            <End Role="kitaplar" EntitySet="kitaplar" />
+            <End Role="kayit" EntitySet="kayit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_kayit_kullanici" Association="kitapModel.FK_kayit_kullanici">
+            <End Role="kullanici" EntitySet="kullanici" />
+            <End Role="kayit" EntitySet="kayit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_kayit_ogrenciler" Association="kitapModel.FK_kayit_ogrenciler">
+            <End Role="ogrenciler" EntitySet="ogrenciler" />
+            <End Role="kayit" EntitySet="kayit" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="kayit">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="o_ad" Type="Int32" />
+          <Property Name="gorevli" Type="Int32" />
+          <Property Name="kitap" Type="Int32" />
+          <Property Name="tarih" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="kitaplar" Relationship="kitapModel.FK_kayit_kitaplar" FromRole="kayit" ToRole="kitaplar" />
+          <NavigationProperty Name="kullanici" Relationship="kitapModel.FK_kayit_kullanici" FromRole="kayit" ToRole="kullanici" />
+          <NavigationProperty Name="ogrenciler" Relationship="kitapModel.FK_kayit_ogrenciler" FromRole="kayit" ToRole="ogrenciler" />
+          <Property Name="durum" Type="Boolean" />
+        </EntityType>
+        <Association Name="FK_kayit_kitaplar">
+          <End Type="kitapModel.kitaplar" Role="kitaplar" Multiplicity="0..1" />
+          <End Type="kitapModel.kayit" Role="kayit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="kitaplar">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="kayit">
+              <PropertyRef Name="kitap" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_kayit_kullanici">
+          <End Type="kitapModel.kullanici" Role="kullanici" Multiplicity="0..1" />
+          <End Type="kitapModel.kayit" Role="kayit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="kullanici">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="kayit">
+              <PropertyRef Name="gorevli" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_kayit_ogrenciler">
+          <End Type="kitapModel.ogrenciler" Role="ogrenciler" Multiplicity="0..1" />
+          <End Type="kitapModel.kayit" Role="kayit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ogrenciler">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="kayit">
+              <PropertyRef Name="o_ad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="kitapModelStoreContainer" CdmEntityContainer="kitapEntities">
+          <EntitySetMapping Name="admin">
+            <EntityTypeMapping TypeName="kitapModel.admin">
+              <MappingFragment StoreEntitySet="admin">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="admin1" ColumnName="admin" />
+                <ScalarProperty Name="sifre" ColumnName="sifre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="kitaplar">
+            <EntityTypeMapping TypeName="kitapModel.kitaplar">
+              <MappingFragment StoreEntitySet="kitaplar">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="kitap_Adi" ColumnName="kitap_Adi" />
+                <ScalarProperty Name="kitap_sayisi" ColumnName="kitap_sayisi" />
+                <ScalarProperty Name="yazar" ColumnName="yazar" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="kullanici">
+            <EntityTypeMapping TypeName="kitapModel.kullanici">
+              <MappingFragment StoreEntitySet="kullanici">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="kullanici_adi" ColumnName="kullanici_adi" />
+                <ScalarProperty Name="sifre" ColumnName="sifre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ogrenciler">
+            <EntityTypeMapping TypeName="kitapModel.ogrenciler">
+              <MappingFragment StoreEntitySet="ogrenciler">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ogrenci_adi" ColumnName="ogrenci_adi" />
+                <ScalarProperty Name="ogrenci_no" ColumnName="ogrenci_no" />
+                <ScalarProperty Name="sinifi" ColumnName="sinifi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="siniflar">
+            <EntityTypeMapping TypeName="kitapModel.siniflar">
+              <MappingFragment StoreEntitySet="siniflar">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="sinif_adi" ColumnName="sinif_adi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="kayit">
+            <EntityTypeMapping TypeName="kitapModel.kayit">
+              <MappingFragment StoreEntitySet="kayit">
+                <ScalarProperty Name="durum" ColumnName="durum" />
+                <ScalarProperty Name="tarih" ColumnName="tarih" />
+                <ScalarProperty Name="kitap" ColumnName="kitap" />
+                <ScalarProperty Name="gorevli" ColumnName="gorevli" />
+                <ScalarProperty Name="o_ad" ColumnName="o_ad" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
